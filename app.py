@@ -94,40 +94,35 @@ while True:
                     sys.exit(1)
                 
                 print(f"The results are:\n{rancomd.stdout.decode('utf-8')}")
-                check_work = model.generate_content(f"The command that ran in the {System_OS} was '{c.text}' "
+                check_work = model.generate_content(f"""The command that ran in the {System_OS} was '{c.text}' "
                                                          f"and the output of that command was '{rancomd.stdout.decode('utf-8')}'. "
                                                          f"The error from the command was '{rancomd.stderr.decode('utf-8')}'. "
                                                          f"Now, I have run the command and don't know if it was successful. "
                                                          f"If there is a way to check if the given command has done its work or not, "
-                                                         f"please provide that command or list of commands to verify.")
-                def write_to_file(file_path, content):
-                    with open(file_path, 'w') as file:
-                        file.write(content)
+                                                         f"please provide that command or list of commands to verify.""")
                 
-                write_to_file('verify_run.txt' , check_work.text)
-                count = 1
-
-                with open('verify_run.txt' , 'r') as f :
-                    verify_cmd_content = f.read()
-                def verify_the_command(verify_cmd_list , prompt):
-
+                if {rancomd.stdout.decode('utf-8')} == "" or {rancomd.stdout.decode('utf-8')} == None :
+                    def write_to_file(file_path, content):
+                        with open(file_path, 'w') as file:
+                            file.write(content)
                     
-                    ver = chat2.send_message(f'now their is the file that contains the commands to verify if the command given in the prompt ran sucessfully now you have to take the {count} command now just give me the {count} command that i can run directly in my console and get the output"
-                     ')
-                    
+                    write_to_file('verify_run.txt' , check_work.text)
+                    count = 1
 
-
+                    with open('verify_run.txt' , 'r') as f :
+                        verify_cmd_content = f.read()
+                    def verify_the_command(verify_cmd_list , prompt , count):
+                        ver = chat2.send_message(f"""now their is the file that contains the commands to verify if the command given in the prompt ran sucessfully now you have to take the {count} command now just give me the {count} command that i can run directly in my console and get the output""")
                     # ver = chat2.send_message(f'now their is the file that contains the commands to verify if the command given in the prompt ran sucessfully now you have to take the {count} command and try to run and check if that verifies if the command in the prompt work sucessfully or not, here the  file is {verify_cmd_content} and the prompt command is {prompt} , if it verifies than response with `yes` else response with `no`  ')
+                        print(ver)
+                        if ver.text.lower() == "yes" :
+                            count = 1
+                            pass
+                        else :
+                            count+=1
+                            verify_the_command(verify_cmd_content , c.text , count)
 
-                    print(ver)
-                    if ver.lower() == "yes" :
-                        count = 1
-                        pass
-                    else :
-                        count+=1
-                        verify_the_command(verify_cmd_content , c.text)
-
-                verify_the_command(verify_cmd_content , c.text)
+                    verify_the_command(verify_cmd_content , c.text ,count)
 
 
                 print(check_work.text)
@@ -136,13 +131,13 @@ while True:
                 
                 print(f"The Error is: {e}")
 
-                check_error = model.generate_content(f"Here is the error code for the command that was performed in {System_OS}. "
+                check_error = model.generate_content(f"""Here is the error code for the command that was performed in {System_OS}. "
                                                         f"Check what's wrong with it and provide commands to solve it. "
                                                       #  f"If input is required by that command from the user, add '--required-user-input' at the end of your response. "
                                                         f"The error is '{e}', the command was '{c.text}'. "
                                                         f"For more info, the current directory is '{os.getcwd()}'. "
                                                       #  f"Please provide the steps in a JSON format.
-                                                        f"")
+                                                        """)
                 print(check_error.text)
                 def write_to_file(file_path, content):
                     with open(file_path, 'w') as file:
