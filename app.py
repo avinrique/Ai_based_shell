@@ -52,6 +52,7 @@ def errors_handler_and_verifyer(command , prompt ) :
                                                         f"For more info, the current directory is '{os.getcwd()}'. "
                                                       #  f"Please provide the steps in a JSON format.
                                                         f"")
+                #check for errors
                 print(check_error.text)
                 def write_to_file(file_path, content):
 
