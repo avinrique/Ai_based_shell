@@ -15,7 +15,7 @@ def check_os():
     else:
         print("Unknown operating system")
 System_OS = check_os()
-genai.configure(api_key="AIzaSyAlSRMwkkHtlsNkZJHrdjXRvD4zJdOsLKI")
+genai.configure(api_key="")
 for model in genai.list_models():
     if 'generateContent' in model.supported_generation_methods:
         print(model.name)
