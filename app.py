@@ -18,7 +18,7 @@ def check_os():
 
 System_OS = check_os()
 
-genai.configure(api_key="AIzaSyAlSRMwkkHtlsNkZJHrdjXRvD4zJdOsLKI")
+genai.configure(api_key="")
 
 # for m in genai.list_models():
 #     if 'generateContent' in m.supported_generation_methods:
