@@ -18,11 +18,11 @@ def check_os():
 
 System_OS = check_os()
 
-genai.configure(api_key="AIzaSyCRUpuFm2Nc17FbHNL-Fv-zNeogCDlqKBg")
+genai.configure(api_key="AIzaSyAlSRMwkkHtlsNkZJHrdjXRvD4zJdOsLKI")
 
-for m in genai.list_models():
-    if 'generateContent' in m.supported_generation_methods:
-        print(m.name)
+# for m in genai.list_models():
+#     if 'generateContent' in m.supported_generation_methods:
+#         print(m.name)
 
 
 
@@ -69,11 +69,43 @@ model = genai.GenerativeModel('gemini-pro')
 chat = model.start_chat(history=[])
 chat2 = model.start_chat(history=[])
 
+chat.send_message(""" Hey i am aAbhinav Gupta and my skills are 
+                    Programming and Development:
 
+                    Python
+                    JavaScript (including Node.js and web development)
+                    PowerShell and Bash scripting
+                    Familiarity with ES6 modules
+                    Artificial Intelligence and Automation:
+
+                    Experience with large language models (LLMs)
+                    Development of automation systems (e.g., 'autogen')
+                    Knowledge of generative AI applications
+                    Robotics and Hardware:
+
+                    Building robotic arms
+                    Working with microcontrollers (e.g., ESP8266, Raspberry Pi)
+                    Experience with RF communication
+                    Computer Vision:
+
+                    Using OpenCV with Arducam TOF camera
+                    Database Management:
+
+                    Understanding of databases, ER diagrams, normalization, and SQL operations
+                    Web Development:
+
+                    Building and managing e-commerce websites
+                    Implementing features like language toggles and cart functionality
+                    Cybersecurity:
+
+                    Knowledge of ethical hacking and vulnerability assessment
+                    Collaboration and Project Management:
+
+                    Experience in developing projects focused on real-time collaboration and task management                   """)
 
 while True:
-    cmdin = input("enter the command")
-    a = chat.send_message(f"""Suppose you are an ai agent that converts the given prompt into a {System_OS} command that can be directly executed, you have to take the prompt and convert it into a command so that i can paste your response and get my results , the prompt is {cmdin} , also your current directory is {os.getcwd()} """ , safety_settings={'HARASSMENT':'block_none', 'HARM_CATEGORY_DANGEROUS_CONTENT' : 'block_none' ,'HARM_CATEGORY_DANGEROUS_CONTENT': 'block_none'})
+    cmdin = input("Enter the prompt ")
+    a = chat.send_message(f"""Suppose you are an ai agent that converts the given prompt into a {System_OS} command that can be directly executed, you have to take the prompt and convert it into a command so that i can paste your response and get my results , the prompt is {cmdin} , also your current directory is {os.getcwd()}. and you also have my details like myb name and things """ , safety_settings={'HARASSMENT':'block_none', 'HARM_CATEGORY_DANGEROUS_CONTENT' : 'block_none' ,'HARM_CATEGORY_DANGEROUS_CONTENT': 'block_none'})
 
     c = model.generate_content(f"""Suppose you are an ai agent that converts the given prompt into a {System_OS} command that can be directly executed, now check if there is extra anything other than command then remove it there, just keep the command ,the command is {a.text}""")
     
@@ -82,7 +114,8 @@ while True:
     if b.text.lower() == "yes":
         check_before_exec = input(f"Are you sure you want to run this command?\n'{c.text}'\n1. Yes\n2. No\nDefault = Yes\n")
         
-        if not check_before_exec or check_before_exec.lower() == "yes":
+                         # if not check_before_exec or check_before_exec.lower() == "yes":
+        if "yes" == "yes":
             
             try:
                 if System_OS == "windows Powershell":
